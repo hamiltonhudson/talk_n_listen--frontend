@@ -15,6 +15,7 @@ class Routes extends React.Component {
            <Route path='/login' component={Login} />
            <Route path='/new' component={NewUser} />
            <Route path='/homepage' component={UserHome} />
+           {/* <Route path='/profile' component={ProfileContainer} spotify={Spotify}/> */}
          </Switch>
        </Router>
     )
