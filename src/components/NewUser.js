@@ -31,8 +31,9 @@ class NewUser extends React.Component {
         "Accept": "application/json",
       },
       body: JSON.stringify({
-        name: this.state.name,
-        email: this.state.email,
+        // name: this.state.name,
+        // email: this.state.email,
+        usernane: this.state.username,
         password: this.state.password
       })
     }
@@ -52,7 +53,11 @@ class NewUser extends React.Component {
         .then(response => response.json())
         .then(result => {
           console.log(result)
-          this.props.getUsers(result)
+          if (result.errors) {
+            console.log(result.errors)
+          } else {
+            this.props.getUsers(result)
+          }
         })
       }
     })
@@ -72,28 +77,37 @@ class NewUser extends React.Component {
         <div className="row">
           <form onSubmit={this.handleSubmit}>
             <br/>
-            <label className="loginLabel">Name</label>
-            <input
+            {/* <label className="loginLabel">Name</label>
+              <input
               className="input"
               placeholder="Sign Up With Your Name..."
               type="text"
               name="name"
               value={this.state.name}
               onChange={event => this.handleChange(event)}
-            />
-            <label className="loginLabel">Email</label>
-            <input
+              />
+              <label className="loginLabel">Email</label>
+              <input
               className="input"
               placeholder="...Your Email Address..."
               type="email"
               name="email"
               value={this.state.email}
               onChange={event => this.handleChange(event)}
+            /> */}
+            <label className="loginLabel">Username</label>
+            <input
+              className="input"
+              placeholder="Choose A Username..."
+              type="text"
+              name="username"
+              value={this.state.username}
+              onChange={event => this.handleChange(event)}
             />
             <label>Password</label>
             <input
               className="input"
-              placeholder="...And A Password 🔐"
+              placeholder="...And Give It A Password 🔐"
               type="password"
               name="password"
               value={this.state.password}
