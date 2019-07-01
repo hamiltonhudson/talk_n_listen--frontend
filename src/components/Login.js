@@ -5,103 +5,57 @@ import { Redirect } from 'react-router-dom';
 import { getUsers, setUser } from '../actions';
 
 // const usersAPI = 'http://localhost:3000/api/v1/users/'
-const API = 'http://localhost:3000/api/v1/'
+const API = 'http://localhost:3000/api/v1'
 
 class Login extends React.Component {
 
   state = {
-    email: '',
+    username: '',
     password: '',
     loggedIn: false
   }
 
   handleChange = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     this.setState({
       [event.target.name] : event.target.value
     })
   }
 
-  // handleSubmit = (event) => {
-  //   event.preventDefault()
-  //   fetch(`${API}/users`)
-  //   // fetch(`${API}/auth`)
-  //   .then(r => r.json())
-  //   .then(response => {
-  //     console.log("response", response)
-  //     this.props.getUsers(response)
-  //     let currentUser = this.props.allUsers.find(user => user.email === this.state.email)
-  //     // let currentUser = this.props.allUsers.find(user => user.email === this.state.email && user.password === this.state.password)
-  //     this.props.setUser(currentUser)
-  //     this.setState({
-  //       loggedIn: true
-  //     })
-  //   })
-  // }
-
-
-// #PetAdopter
-// handleSubmit = (event) => {
-//   event.preventDefault();
-//   fetch(apiUsersAddress, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(this.state)
-//   })
-//     .then(res => res.json())
-//     .then(userObj => {
-//       localStorage.setItem('jwt', userObj.token);
-//       const usersAdoptedPets = userObj.pets.filter(pet => pet.owner_id === userObj.id)
-//       this.props.setCurrentUser(userObj)
-//       this.props.setMyPets(userObj.matches, usersAdoptedPets)
-//   })
-// }
-
   handleSubmit = (event) => {
-  // login(loginParams) {
-  console.log(this.state)
-    fetch(`${API}/auth`, {
+    event.preventDefault()
+    fetch(`${API}/auth/`, {
       method: 'POST',
-      credentials: 'include',
       headers: {
-        'Content-Type': "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(this.state)
-      // body: JSON.stringify({
-      //   email: this.state.email,
-      //   password: this.state.password
-      // })
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      })
     })
-    .then(response => {
-      response.json()
-      console.log(response.json())
-    })
-    .then (result => {
-      console.log("result", result)
+    .then(response => response.json())
+    .then(result => {
+      console.log(result)
+      // abstract localStorage into an adapter
+      localStorage.setItem('token', result.token)
       this.props.setUser(result)
-      fetch(`${API}/users`, {
-        credentials: 'include'
+      this.props.history.push("/homepage")
+      this.setState({
+        loggedIn: true
       })
-      .then (response => response.json())
-      .then (result => {
-        if (result.errors) {
-          console.log(result.errors)
-        } else {
-          this.renderHomePage()
-        }
-      })
-      // this.props.getUsers(result)
-      // let currentUser = this.props.allUsers.find(user => user.email === this.state.email)
-      // let currentUser = this.props.allUsers.find(user => user.email === this.state.email && user.password === this.state.password)
-      // this.props.setUser(currentUser)
-      // this.setState({
-      //   loggedIn: true
-      //   })
-      })
-    // .then (fetch(`${API}/users`)
-    // )
+    })
+    // fetch(`${API}/users`, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": localStorage.getItem('token')
+    //   }
+    // })
+    // .then(response => response.json())
+    // .then(result => {
+    //   console.log("fetch users result in Login", result)
+    //   this.props.getUsers(result)
+    // })
   }
 
   renderHomePage = () => {
@@ -119,15 +73,6 @@ class Login extends React.Component {
         <div className="row">
           <form onSubmit={this.handleSubmit}>
             <br/>
-            {/* <label className="loginLabel">Email</label>
-              <input
-              className="input"
-              placeholder="Enter Yo' Email!"
-              type="email"
-              name="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            /> */}
             <label className="loginLabel">Username</label>
             <input
               className="input"
@@ -150,8 +95,6 @@ class Login extends React.Component {
             <input
               type="submit"
               className="submit-button"
-              // onClick={this.handleSubmit()}
-              // onSubmit={this.handleSubmit()}
             />
           </form>
           {/* {this.renderHomePage()} */}
@@ -163,14 +106,14 @@ class Login extends React.Component {
 
   const mapStateToProps = (state) => {
     return {
-      allUsers: state.users.users,
+      // allUsers: state.users.users,
       currentUser: state.users.user
     }
   }
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      getUsers: (users) => dispatch(getUsers(users)),
+      // getUsers: (users) => dispatch(getUsers(users)),
       setUser: (currentUser) => dispatch(setUser(currentUser))
     }
   }

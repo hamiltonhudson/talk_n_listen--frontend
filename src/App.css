@@ -46,3 +46,22 @@
   display: flex;
   font-family: "GeosansLight";
 }
+
+
+.NavBar {
+  display: flex;
+  text-align: center;
+}
+
+.NavBar a, button {
+  flex: 1;
+  padding: 10px;
+  margin: 5px 15px;
+  border: 1px solid black;
+  text-decoration: none;
+  color: black;
+}
+
+.NavBar a:hover, button:hover, .selected {
+  background: #61dafb;
+}

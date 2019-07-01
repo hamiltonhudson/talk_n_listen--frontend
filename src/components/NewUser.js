@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { setUser, getUsers } from '../actions/index';
 
-const usersAPI = 'http://localhost:3000/api/v1/users/'
+const API = 'http://localhost:3000/api/v1'
 
 class NewUser extends React.Component {
 
@@ -24,43 +24,35 @@ class NewUser extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const postConfig = {
-      method: "POST",
+    fetch(`${API}/users`, {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        // name: this.state.name,
-        // email: this.state.email,
-        usernane: this.state.username,
-        password: this.state.password
-      })
-    }
-    fetch(usersAPI, postConfig)
+      body: JSON.stringify(this.state)
+    })
     .then(response => response.json())
     .then(result => {
-      console.log("result in NewUser", result)
-      if (result.errors){
-        window.alert('Hmmm...there might be a typo? 🧐 Please double check!')
-        return <Redirect to="/newuser" />
-      } else {
-        this.props.setUser(result)
-        this.setState({
-          signedUp: true
-        })
-        fetch(usersAPI)
-        .then(response => response.json())
-        .then(result => {
-          console.log(result)
-          if (result.errors) {
-            console.log(result.errors)
-          } else {
-            this.props.getUsers(result)
-          }
-        })
-      }
+      console.log(result)
+      // abstract localStorage into an adapter
+      localStorage.setItem('token', result.token)
+      this.props.setUser(result)
+      this.props.history.push("/homepage")
+      this.setState({
+        signedUp: true
+      })
     })
+    // fetch(`${API}/users`, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": localStorage.getItem('token')
+    //   }
+    // })
+    // .then(response => response.json())
+    // .then(result => {
+    //   console.log("fetch users result in Login", result)
+    //   this.props.getUsers(result)
+    // })
   }
 
   renderHomePage = () => {
@@ -84,15 +76,6 @@ class NewUser extends React.Component {
               type="text"
               name="name"
               value={this.state.name}
-              onChange={event => this.handleChange(event)}
-              />
-              <label className="loginLabel">Email</label>
-              <input
-              className="input"
-              placeholder="...Your Email Address..."
-              type="email"
-              name="email"
-              value={this.state.email}
               onChange={event => this.handleChange(event)}
             /> */}
             <label className="loginLabel">Username</label>
@@ -119,7 +102,7 @@ class NewUser extends React.Component {
               className="submit-button"
             />
           </form>
-          {this.renderHomePage()}
+          {/* {this.renderHomePage()} */}
         </div>
       </div>
     )

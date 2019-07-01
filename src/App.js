@@ -1,21 +1,22 @@
 import React from 'react';
 import './App.css';
-import { Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
+import NavBar from './components/NavBar';
+import Adapter from './components/Adapter';
+
 
 class App extends React.Component {
 
   render() {
     return(
-      <div>
+      <div className="App">
         <h3 className="App-header">Talk 'n Listen</h3>
-        <div className="row">
-          <div className="col l6 m6 s12 App-link">
-            <Link to='/login'>Login</Link>
-          </div>
-          <div className="col l6 m6 s12 App-link">
-            <Link to='/new'>New User?</Link>
-          </div>
+        <br/><br/>
+        <div>
+          <h5>Navbar row</h5>
+          <NavBar {...this.props}/>
         </div>
+        <hr/><br/>
       </div>
     )
   }
