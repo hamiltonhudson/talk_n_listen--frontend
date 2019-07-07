@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { API_ROOT } from '../constants/Constants';
 
-const API = 'http://localhost:3000/api/v1'
 
 class MyChats extends React.Component {
 
@@ -14,7 +14,7 @@ class MyChats extends React.Component {
   }
 
   getMyChats = () => {
-    fetch(`${API}/users/${this.props.currentUser.id}/chats`, {
+    fetch(`${API_ROOT}/users/${this.props.currentUser.id}/chats`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": localStorage.getItem('token')

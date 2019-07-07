@@ -2,10 +2,9 @@ import React from 'react';
 import '../App.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getUsers, setUser } from '../actions';
+import { setUser } from '../actions';
+import { API_ROOT } from '../constants/Constants';
 
-// const usersAPI = 'http://localhost:3000/api/v1/users/'
-const API = 'http://localhost:3000/api/v1'
 
 class Login extends React.Component {
 
@@ -16,7 +15,6 @@ class Login extends React.Component {
   }
 
   handleChange = (event) => {
-    // console.log(event.target.value)
     this.setState({
       [event.target.name] : event.target.value
     })
@@ -24,7 +22,7 @@ class Login extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    fetch(`${API}/auth/`, {
+    fetch(`${API_ROOT}/auth/`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -36,8 +34,6 @@ class Login extends React.Component {
     })
     .then(response => response.json())
     .then(result => {
-      console.log(result)
-      // abstract localStorage into an adapter
       localStorage.setItem('token', result.token)
       this.props.setUser(result)
       this.props.history.push("/homepage")
@@ -45,22 +41,11 @@ class Login extends React.Component {
         loggedIn: true
       })
     })
-    // fetch(`${API}/users`, {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Authorization": localStorage.getItem('token')
-    //   }
-    // })
-    // .then(response => response.json())
-    // .then(result => {
-    //   console.log("fetch users result in Login", result)
-    //   this.props.getUsers(result)
-    // })
   }
 
   renderHomePage = () => {
     if (this.state.loggedIn) {
-      return <Redirect to="/homepage" />
+      return <Redirect to="/homepage"/>
     }
   }
 
@@ -106,15 +91,13 @@ class Login extends React.Component {
 
   const mapStateToProps = (state) => {
     return {
-      // allUsers: state.users.users,
-      currentUser: state.users.user
+      currentUser: state.users.user,
     }
   }
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      // getUsers: (users) => dispatch(getUsers(users)),
-      setUser: (currentUser) => dispatch(setUser(currentUser))
+      setUser: (currentUser) => dispatch(setUser(currentUser)),
     }
   }
 

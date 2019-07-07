@@ -3,8 +3,8 @@ import '../App.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { setUser, getUsers } from '../actions/index';
+import { API_ROOT } from '../constants/Constants';
 
-const API = 'http://localhost:3000/api/v1'
 
 class NewUser extends React.Component {
 
@@ -24,7 +24,7 @@ class NewUser extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    fetch(`${API}/users`, {
+    fetch(`${API_ROOT}/users`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"

@@ -5,9 +5,13 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 // import { createStore, applyMiddleware, compose } from 'redux’;
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ActionCableProvider } from 'react-actioncable-provider';
+// import App from './App';
 import Routes from './Routes';
 import rootReducer from './reducers/rootReducer';
+import { API_WS_ROOT } from './constants/Constants';
 import * as serviceWorker from './serviceWorker';
+
 
 const store = createStore(rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ &&
@@ -17,9 +21,11 @@ const store = createStore(rootReducer,
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <Routes />
-    </Router>
+    <ActionCableProvider url={API_WS_ROOT}>
+      <Router>
+        <Routes />
+      </Router>
+    </ActionCableProvider>
   </Provider>,
   document.getElementById('root')
 );

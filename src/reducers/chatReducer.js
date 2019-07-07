@@ -1,21 +1,27 @@
 import * as types from '../constants/Constants';
 
 const initialState = {
-  users: '',
-  user: ''
+  chats: [],
+  userChats: [],
+  message: ''
 }
 
 export default (state = initialState, action) => {
   switch(action.type) {
-    case types.SET_USER:
+    case types.SET_CHATS:
       return {
         ...state,
-        user: action.payload
+        chats: action.payload
       }
-    case types.GET_USERS:
+    case types.GET_USER_CHATS:
       return {
         ...state,
-        users: action.payload
+        userChats: action.payload
+      }
+    case types.SEND_MESSAGE:
+      return {
+        ...state,
+        message: action.payload
       }
     default:
       return state;

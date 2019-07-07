@@ -1,28 +1,34 @@
-import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
+import { ActionCableProvider } from 'react-actioncable-provider';
+import { API_WS_ROOT } from './constants/Constants'
 import App from './App';
+// import Adapter from './components/Adapter';
 import Login from './components/Login';
 import NewUser from './components/NewUser';
 import UserHome from './components/UserHome';
-import Chat from './components/Chat';
-import MyChats from './components/MyChats';
-// import NavBar from './components/NavBar';
-// import Adapter from './components/Adapter';
+import ChatsList from './components/ChatsList';
+// import Chat from './components/Chat';
+// import MyChats from './components/MyChats';
 
 class Routes extends React.Component {
 
   render() {
     return (
-      <Router>
-        <Route path='/' component={App} />
-        <Route exact path='/new' component={(props) => <NewUser {...props}/>} />
-        <Route exact path='/login' component={(props) => <Login {...props}/>} />
-        <Route path='/homepage' component={UserHome} />
-        <Route path='/chat' component={Chat} />
-        <Route path='/mychats' component={MyChats} />
-      </Router>
+      <ActionCableProvider url={API_WS_ROOT}>
+        <Router>
+          <Route path='/' component={App} />
+          <Route exact path='/login' component={(props) => <Login {...props}/>} />
+          <Route exact path='/new' component={(props) => <NewUser {...props}/>} />
+          <Route path='/homepage' component={UserHome} />
+          {/* <Route path='/chat' component={Chat} />
+          <Route path='/mychats' component={MyChats} /> */}
+          {/* <Route path='/conversations' component={ConversationsList} /> */}
+          <Route path='/chats' component={ChatsList} />
+        </Router>
+      </ActionCableProvider>
     )
   }
 }
 
-export default Routes;
+export default (Routes)

@@ -3,6 +3,8 @@ import './App.css';
 import { Switch, Route, Link } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Adapter from './components/Adapter';
+// import ConversationsList from './components/ConvoMessages/ConversationsList';
+import ChatsList from './components/ChatsList';
 
 
 class App extends React.Component {
@@ -16,6 +18,9 @@ class App extends React.Component {
           <h5>Navbar row</h5>
           <NavBar {...this.props}/>
         </div>
+        {/* <div className="row"> */}
+        {/* <ConversationsList /> */}
+        {/* </div> */}
         <hr/><br/>
       </div>
     )

@@ -1,0 +1,8 @@
+export const SET_USER = 'SET_USER'
+export const GET_USERS = 'GET_USERS'
+export const SET_CHATS = 'SET_CHATS'
+export const GET_MESSAGES = 'GET_MESSAGES'
+export const GET_USER_CHATS = 'GET_USER_CHATS'
+export const SEND_MESSAGE = 'SEND_MESSAGE'
+export const API_ROOT = 'http://localhost:3000/api/v1'
+export const API_WS_ROOT = 'ws://localhost:3000/api/v1/cable'

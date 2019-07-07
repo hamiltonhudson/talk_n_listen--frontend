@@ -65,3 +65,7 @@
 .NavBar a:hover, button:hover, .selected {
   background: #61dafb;
 }
+
+.messagesArea {
+  overflow: scroll;
+}

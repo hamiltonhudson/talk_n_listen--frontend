@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { API_ROOT } from '../constants/Constants';
 
-const API = 'http://localhost:3000/api/v1'
 
 class Chat extends React.Component {
 
@@ -14,7 +14,7 @@ class Chat extends React.Component {
   }
 
   getChats = () => {
-    fetch(`${API}/chats`, {
+    fetch(`${API_ROOT}/chats`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": localStorage.getItem('token')
@@ -22,7 +22,6 @@ class Chat extends React.Component {
     })
     .then(response => response.json())
     .then(result => {
-      console.log("result in chats", result)
       this.setState({
         chats: result
       })
@@ -37,20 +36,17 @@ class Chat extends React.Component {
 
   listUsers = () => {
     console.log(this.props.allUsers)
-    // return this.props.allUsers.map((user) => {
-    //   return (
-    //     <ul key={user.id}>{user.username}</ul>
-    //   )
-    // })
+    return this.props.allUsers.map((user) => {
+      return (
+        <ul key={user.id}>{user.username}</ul>
+      )
+    })
   }
 
   render() {
-    console.log("this.props in Chat", this.props)
-    console.log("this.props.allUsers in Chat", this.props.allUsers)
     return (
       <div className="chat-container">
-        CHAT (Chat.js)!
-        {/* {this.listUsers()} */}
+        {this.listUsers()}
         <div className="all-chats-list">
           <h5>All Chats</h5>
           {this.state.chats.map(chat => {
